@@ -25,8 +25,6 @@ def recup_insert(username, token, combien):
             ]
             writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
             writer.writeheader()
-        df1_bf = None 
-    db1_bf = ps.read_csv('sript_auto/discogs_coll.csv')
 
 
     response = requests.get(url, headers=headers, params=params)
@@ -145,7 +143,7 @@ def recup_insert(username, token, combien):
             #Verification afin de pouvoir modifier ou ajouter au csv
             if not verif_data(Article, disc_csv):
 
-                with open(disc_csv,'a', newline='', encoding='cp1252', errors='ignore') as csvfile:
+                with open(disc_csv,'a', newline='', encoding='cp1252', errors='replace') as csvfile:
                     fieldnames = [
                         'titre', 'artiste', 'formats', 'formats_discogs',
                         'year', 'labels', 'genres', 'styles'
@@ -156,7 +154,7 @@ def recup_insert(username, token, combien):
                         writer.writeheader()
 
                     writer.writerow(Article)
-                    with open('diff.csv','a', newline='', encoding='cp1252', errors='ignore') as csvfile:
+                    with open('diff.csv','a', newline='', encoding='cp1252', errors='replace') as csvfile:
                         fieldnames = [
                             'titre', 'artiste', 'formats', 'formats_discogs',
                             'year', 'labels', 'genres', 'styles'
@@ -167,8 +165,9 @@ def recup_insert(username, token, combien):
                             writer.writeheader()
 
                         writer.writerow(Article)
-    verif_file('./discogs_coll.csv','discogs_coll.csv',db1_bf)
-    if (os.path.exists('diff.csv') or os.path.exists('remove.csv')) :
+    if os.path.exists('./discogs_coll.csv')and os.path.exists('discogs_coll.csv'):
+        verif_file('./discogs_coll.csv','discogs_coll.csv')
+    if (os.path.exists('diff.csv') ) :
         insert_coll() 
     else:
         print("Il n'y a aucune donnée à incrementer")

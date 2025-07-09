@@ -18,6 +18,7 @@ def insert_coll():
     if os.path.exists('diff.csv'):
         with open('diff.csv', encoding='utf-8', errors='ignore') as f:
             df_enter = ps.read_csv(f, engine='python')
+                
             if not df_enter.empty:
                 add = user_col.insert_many(df_enter.to_dict('records'))
                 print('Parfait, les données ont bient été recupérée,voici les nouvelles données entrer:')
@@ -31,16 +32,21 @@ def insert_coll():
             df_remove = ps.read_csv(f, engine='python')
 
             if not df_remove.empty:
+                required_keys = ['titre', 'artiste', 'formats', 'formats_discogs', 'year', 'labels', 'genres', 'styles']
                 filter_to_delete = {
-                '$or': [
-                {'titre': doc['titre'], 'artiste': doc['artiste'], 'formats': doc['formats'],'formats_discogs': doc['formats_discogs'],'year':doc['year'],'labels':doc['labels'],'genres':doc['genres'],'styles':doc['styles']}
-                for doc in df_remove.to_dict('records')
-                ]
-            }
-            delete_result = user_col.delete_many(filter_to_delete)
-        print('Parfait, les données ont bient été recupérée,voici les nouvelles données entrer:')
-        print(df_remove)
-        #suppresion afin de pouvoir supprrimé les elements supplémentaires qui vont arrivées par la suite
+                    '$or': []
+                }
+    
+                for doc in df_remove.to_dict('records'):
+                    if all(key in doc and doc[key] is not None for key in required_keys):
+                        filter_to_delete['$or'].append({key: doc[key] for key in required_keys})
+    
+                if filter_to_delete['$or']:
+                    delete_result = user_col.delete_many(filter_to_delete)
+                    print('Suppression effectuée avec succès pour ces documents :')
+                    print(df_remove)
+                else:
+                    print("Aucun document valide à supprimer.")
         os.remove('remove.csv')
 
 

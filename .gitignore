@@ -1,9 +1,5 @@
 .env
-
-script_auto/discogs_coll.csv
-
-script_auto/__pycache__
+sript_auto/__pycache__
 client/__pycache__
 testfonc
-*.csv
-remote.csv
+*csv
