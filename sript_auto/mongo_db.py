@@ -23,8 +23,8 @@ def insert_coll():
                 print('Parfait, les données ont bient été recupérée,voici les nouvelles données entrer:')
                 print(df_enter)
                 #suppresion afin de pouvoir ajouté les elements supplémentaires qui vont arrivées par la suite
-                os.remove('diff.csv')
-                print('Diff.csv a été supprimé')
+        os.remove('diff.csv')
+        print('Diff.csv a été supprimé')
 
     if os.path.exists('remove.csv'):
         with open ('remove.csv',encoding='utf-8', errors='ignore') as f:
@@ -33,14 +33,14 @@ def insert_coll():
             if not df_remove.empty:
                 filter_to_delete = {
                 '$or': [
-                {'titre': doc['titre'], 'artiste': doc['artiste'], 'formats': doc['formats']}
+                {'titre': doc['titre'], 'artiste': doc['artiste'], 'formats': doc['formats'],'formats_discogs': doc['formats_discogs'],'year':doc['year'],'labels':doc['labels'],'genres':doc['genres'],'styles':doc['styles']}
                 for doc in df_remove.to_dict('records')
                 ]
             }
             delete_result = user_col.delete_many(filter_to_delete)
-            print('Parfait, les données ont bient été recupérée,voici les nouvelles données entrer:')
-            print(df_remove)
-            #suppresion afin de pouvoir supprrimé les elements supplémentaires qui vont arrivées par la suite
-            os.remove('remove.csv')
+        print('Parfait, les données ont bient été recupérée,voici les nouvelles données entrer:')
+        print(df_remove)
+        #suppresion afin de pouvoir supprrimé les elements supplémentaires qui vont arrivées par la suite
+        os.remove('remove.csv')
 
 

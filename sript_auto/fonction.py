@@ -18,7 +18,7 @@ def recup_insert(username, token, combien):
     
     if not file.is_file() or file.stat().st_size == 0:
     # fichier n'existe pas ou est vide : créer un fichier CSV avec en-tête
-        with open(disc_csv, 'w', newline='', encoding='cp1252', errors='ignore') as csvfile:
+        with open(disc_csv, 'w', newline='', encoding='cp1252') as csvfile:
             fieldnames = [
             'titre', 'artiste', 'formats', 'formats_discogs', 'year',
             'labels', 'genres', 'styles'
@@ -168,7 +168,7 @@ def recup_insert(username, token, combien):
 
                         writer.writerow(Article)
     verif_file('./discogs_coll.csv','discogs_coll.csv',db1_bf)
-    if (os.path.exists('diff.csv')) :
+    if (os.path.exists('diff.csv') or os.path.exists('remove.csv')) :
         insert_coll() 
     else:
         print("Il n'y a aucune donnée à incrementer")
