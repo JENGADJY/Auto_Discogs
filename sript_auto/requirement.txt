@@ -1,0 +1,7 @@
+requests
+os
+dotenv 
+csv
+pandas
+pathlib 
+pymongo

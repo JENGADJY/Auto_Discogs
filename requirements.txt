@@ -1,0 +1,7 @@
+pandas
+pymongo
+requests
+asynchio
+schedule 
+subprocess
+dotenv

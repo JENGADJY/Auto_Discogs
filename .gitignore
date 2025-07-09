@@ -1,0 +1,7 @@
+.env
+discogs_coll.csv
+script_auto/discogs_coll.csv
+.csv
+script_auto/__pycache__
+client/__pycache__
+testfonc
