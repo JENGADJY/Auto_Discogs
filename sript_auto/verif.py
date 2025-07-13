@@ -57,3 +57,28 @@ def verif_file(csv1,csv2):
 
     # Creation d'un fichier delete avec qui supprimer dans discogs_coll et mongodb           
 
+
+def verif_doublons():
+
+    df = pd.read_csv('DONT.csv', sep=",", on_bad_lines='warn', encoding='ISO-8859-1')
+
+    verif = []
+    with open('DONT.csv', newline='',encoding='ISO-8859-1', errors='replace') as csvfile:
+        reader = csv.DictReader('DONT.csv')
+        for row in reader:
+            verif.append(row)
+
+            # juste verifier si les attributs de l'article corespondent 
+        exists = False
+
+
+        for row in verif:
+            for row_verif in verif :
+                if row_verif['titre'] == row['titre'] and row_verif['artiste'] == row['artiste'] and row_verif['formats'] == row['formats']  :
+                    exists = True
+                    print(f"{row_verif['titre']} est deja dans le csv")
+                    #ajout du future doublons ou errors
+                    
+                
+                    
+    

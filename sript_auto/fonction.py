@@ -1,10 +1,11 @@
 import requests
-import csv
+
 from pathlib import Path
 from .verif import verif_data, verif_file
 from .mongo_db import insert_coll
 import os
 import pandas as ps
+from .csv import insert_csv, errors_data, create_file
 
 
 def recup_insert(username, token, combien):
@@ -19,14 +20,7 @@ def recup_insert(username, token, combien):
     
     if not file.is_file() or file.stat().st_size == 0:
     # fichier n'existe pas ou est vide : créer un fichier CSV avec en-tête
-        with open(disc_csv, 'w', newline='', encoding='cp1252') as csvfile:
-            fieldnames = [
-            'titre', 'artiste', 'formats', 'formats_discogs', 'year',
-            'labels', 'genres', 'styles'
-            ]
-            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-            writer.writeheader()
-
+        create_file(disc_csv)
 
     response = requests.get(url, headers=headers, params=params)
     data = response.json()
@@ -129,50 +123,17 @@ def recup_insert(username, token, combien):
 
         #si le fichier
         if not file.is_file():
-            with open(disc_csv,'a', newline='', encoding='cp1252', errors='replace') as csvfile:
-                fieldnames = [
-                    'titre', 'artiste', 'formats', 'formats_discogs', 'year',
-                    'labels', 'genres', 'styles'
-                ]
-                writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+            insert_csv(disc_csv,Article)
 
-                if csvfile.tell() == 0:
-                    writer.writeheader()
-
-                writer.writerow(Article)
         else:
             #Verification afin de pouvoir modifier ou ajouter au csv
             if not verif_data(Article, disc_csv):
                 if fileDONT.is_file(): 
-                
-                    error_items=ps.read_csv('DONT.csv', sep=",", on_bad_lines='warn', encoding='cp1252')
-                    for row in error_items:
-                        if Article == row:
-                            break
+                    errors_data(Article)
                 else:
 
-                    with open(disc_csv,'a', newline='', encoding='cp1252', errors='replace') as csvfile:
-                        fieldnames = [
-                            'titre', 'artiste', 'formats', 'formats_discogs',
-                            'year', 'labels', 'genres', 'styles'
-                        ]
-                        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-
-                        if csvfile.tell() == 0:
-                            writer.writeheader()
-
-                        writer.writerow(Article)
-                        with open('diff.csv','a', newline='', encoding='cp1252', errors='replace') as csvfile:
-                            fieldnames = [
-                                'titre', 'artiste', 'formats', 'formats_discogs',
-                                'year', 'labels', 'genres', 'styles'
-                            ]
-                            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-
-                            if csvfile.tell() == 0:
-                                writer.writeheader()
-
-                            writer.writerow(Article)
+                    insert_csv(disc_csv,Article)
+                    insert_csv('diff.csv',Article)
     """
     if os.path.exists('./discogs_coll.csv')and os.path.exists('discogs_coll.csv'):
         verif_file('./discogs_coll.csv','discogs_coll.csv')
