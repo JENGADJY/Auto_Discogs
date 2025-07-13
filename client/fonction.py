@@ -134,11 +134,7 @@ async def recup_insert(username, token, combien):
             Article['genres'] = ', '.join(liste_genres)
             Article['styles'] = ', '.join(liste_styles)
 
-        print(
-            'les données sont visibles sur le terminal pendant 15 secondes afin que vous puissez visualiser vos données'
-        )
-
-        subprocess.run('clear', shell=True)
+        
         file = Path(disc_csv)
         print(file.is_file())
 
@@ -181,6 +177,12 @@ async def recup_insert(username, token, combien):
                             writer.writeheader()
 
                         writer.writerow(Article)
+
+    print(
+            'les données sont visibles sur le terminal pendant 15 secondes afin que vous puissez visualiser vos données'
+        )
+
+    subprocess.run('clear', shell=True)
     verif_file('./discogs_coll.csv','discogs_coll.csv')
     if (os.path.exists('diff.csv') or os.path.exists('remove.csv')):
         insert_coll()
