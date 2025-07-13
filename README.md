@@ -23,3 +23,27 @@ pour l'automatisation:
  username_discogs=
  Discogs_token=
 ```
+
+
+Si vous voullez lire le fichier depuis un autre fichier voici une base pour un autre main.py
+```python 
+    import asyncio
+    from Auto_Discogs import main as Auto_Discogs_main
+
+
+    def main():
+        print('Bonjour , Listting des items discogs ')
+
+        choice = int(input('Tu es un client(1) ou le proprio(2):'))
+        match choice:
+            case 1:
+                asyncio.run(Auto_Discogs_main.client_exe.client_execut())
+            case 2:
+                Auto_Discogs_main.planificateur.exc_data()
+            case _:
+            main()
+
+
+    if __name__ == '__main__':
+    main()
+```
