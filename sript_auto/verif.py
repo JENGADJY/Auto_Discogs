@@ -13,7 +13,7 @@ def verif_data(Article, disc_csv):
     else:
 
         verif = []
-        with open(disc_csv, newline='', encoding='ISO-8859-1') as csvfile:
+        with open(disc_csv, newline='',encoding='ISO-8859-1', errors='replace') as csvfile:
             reader = csv.DictReader(csvfile)
             for row in reader:
                 verif.append(row)
@@ -27,7 +27,6 @@ def verif_data(Article, disc_csv):
                     return exists
                     
             return exists
-
 
 def verif_file(csv1,csv2):
     #option 1 : verif entre les fichiers discogs_coll.csv afin d'eviter les confusions et de les synchro
@@ -43,7 +42,7 @@ def verif_file(csv1,csv2):
 
     if rows_to_add_to_csv2:
         fieldnames = ['titre', 'artiste', 'formats', 'formats_discogs', 'year', 'labels', 'genres', 'styles']
-        with open(csv2, 'a', newline='', encoding='ISO-8859-1') as csvfile: 
+        with open(csv2, 'a', newline='',encoding='ISO-8859-1', errors='replace') as csvfile: 
             writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
 
             writer.writerows(rows_to_add_to_csv2)
@@ -51,7 +50,7 @@ def verif_file(csv1,csv2):
 
     if rows_to_add_to_csv1:
         fieldnames = ['titre', 'artiste', 'formats', 'formats_discogs', 'year', 'labels', 'genres', 'styles']
-        with open(csv1, 'a', newline='', encoding='ISO-8859-1') as csvfile:  
+        with open(csv1, 'a', newline='', encoding='ISO-8859-1', errors='replace') as csvfile:  
             writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
             writer.writerows(rows_to_add_to_csv1)
             print(f"Added {len(rows_to_add_to_csv1)} rows from {csv2} to {csv1}")

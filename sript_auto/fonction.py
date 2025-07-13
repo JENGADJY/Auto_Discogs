@@ -13,6 +13,7 @@ def recup_insert(username, token, combien):
     headers = {"Authorization": f"Discogs token={token}"}
     params = {"page": 1, "per_page": combien}
     file = Path(disc_csv)
+    fileDONT = Path('DONT.csv')
     # recuperation du fichier csv au depart afin de faire la verification des elements a supprimer plus tard 
     
     
@@ -128,7 +129,7 @@ def recup_insert(username, token, combien):
 
         #si le fichier
         if not file.is_file():
-            with open(disc_csv,'a', newline='', encoding='cp1252', errors='ignore') as csvfile:
+            with open(disc_csv,'a', newline='', encoding='cp1252', errors='replace') as csvfile:
                 fieldnames = [
                     'titre', 'artiste', 'formats', 'formats_discogs', 'year',
                     'labels', 'genres', 'styles'
@@ -142,19 +143,15 @@ def recup_insert(username, token, combien):
         else:
             #Verification afin de pouvoir modifier ou ajouter au csv
             if not verif_data(Article, disc_csv):
+                if fileDONT.is_file(): 
+                
+                    error_items=ps.read_csv('DONT.csv', sep=",", on_bad_lines='warn', encoding='cp1252')
+                    for row in error_items:
+                        if Article == row:
+                            break
+                else:
 
-                with open(disc_csv,'a', newline='', encoding='cp1252', errors='replace') as csvfile:
-                    fieldnames = [
-                        'titre', 'artiste', 'formats', 'formats_discogs',
-                        'year', 'labels', 'genres', 'styles'
-                    ]
-                    writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-
-                    if csvfile.tell() == 0:
-                        writer.writeheader()
-
-                    writer.writerow(Article)
-                    with open('diff.csv','a', newline='', encoding='cp1252', errors='replace') as csvfile:
+                    with open(disc_csv,'a', newline='', encoding='cp1252', errors='replace') as csvfile:
                         fieldnames = [
                             'titre', 'artiste', 'formats', 'formats_discogs',
                             'year', 'labels', 'genres', 'styles'
@@ -165,8 +162,21 @@ def recup_insert(username, token, combien):
                             writer.writeheader()
 
                         writer.writerow(Article)
+                        with open('diff.csv','a', newline='', encoding='cp1252', errors='replace') as csvfile:
+                            fieldnames = [
+                                'titre', 'artiste', 'formats', 'formats_discogs',
+                                'year', 'labels', 'genres', 'styles'
+                            ]
+                            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+
+                            if csvfile.tell() == 0:
+                                writer.writeheader()
+
+                            writer.writerow(Article)
+    """
     if os.path.exists('./discogs_coll.csv')and os.path.exists('discogs_coll.csv'):
         verif_file('./discogs_coll.csv','discogs_coll.csv')
+    """
     if (os.path.exists('diff.csv') ) :
         insert_coll() 
     else:
