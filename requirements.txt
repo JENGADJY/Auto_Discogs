@@ -1,7 +1,5 @@
 pandas
 pymongo
 requests
-asynchio
 schedule 
-subprocess
-dotenv
+python-dotenv
