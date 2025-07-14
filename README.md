@@ -1,5 +1,5 @@
 a faire :
-creer un env pour le client comme ca il pourra ensuite devenir proprio .(ou sinon interface web + serveru comme ca c'est moi qui stocket les variables des gens .)
+creer un env pour le client comme ca il pourra ensuite devenir proprio .(ou sinon interface web + server comme ca c'est moi qui stocke les donnéess des gens .)
 interface et enregistrement utilisateur
 PUIS REDIRECTION POWERBI
 
@@ -24,10 +24,9 @@ pour l'automatisation:
  Discogs_token=
 ```
 
+Si vous voullez lire le programme depuis un fichier externe voici une base pour un autre main.py:
 
-Si vous voullez lire le fichier depuis un autre fichier voici une base pour un autre main.py:
-
-```python 
+```python
     import asyncio
     from Auto_Discogs import main as Auto_Discogs_main
 
