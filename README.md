@@ -41,3 +41,7 @@ Si vous voullez lire le programme depuis un fichier externe voici une base pour 
 ```
 
 Si vous voulez l'executez sur replit , copier les fichiers qui sont dans le replit/
+
+
+
+https://stackoverflow.com/questions/63484742/how-to-write-in-env-file-from-python-code ///// plus tard
