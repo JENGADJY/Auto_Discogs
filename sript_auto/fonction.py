@@ -12,7 +12,7 @@ def recup_insert(username, token, combien):
     disc_csv = 'discogs_coll.csv'
     url = f"https://api.discogs.com/users/{username}/collection/folders/0/releases"
     headers = {"Authorization": f"Discogs token={token}"}
-    params = {"page": 1, "per_page": combien}
+    params = {"page": 0, "per_page": combien}
     file = Path(disc_csv)
     fileDONT = Path('DONT.csv')
     # recuperation du fichier csv au depart afin de faire la verification des elements a supprimer plus tard 
@@ -24,7 +24,7 @@ def recup_insert(username, token, combien):
 
     response = requests.get(url, headers=headers, params=params)
     data = response.json()
-    print(data)
+    #print(data)
     for release in data['releases']:
 
         #année de sortie de l'item
@@ -130,10 +130,9 @@ def recup_insert(username, token, combien):
             if not verif_data(Article, disc_csv):
                 if fileDONT.is_file(): 
                     errors_data(Article)
-                else:
-
-                    insert_csv(disc_csv,Article)
-                    insert_csv('diff.csv',Article)
+                
+                insert_csv(disc_csv,Article)
+                insert_csv('diff.csv',Article)
     """
     if os.path.exists('./discogs_coll.csv')and os.path.exists('discogs_coll.csv'):
         verif_file('./discogs_coll.csv','discogs_coll.csv')

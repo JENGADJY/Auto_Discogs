@@ -8,12 +8,14 @@ import path
 load_dotenv()
 
 urii=os.getenv('MONGO_DB_URL')
+client_mongo=os.getenv('MONGO_DBNAME')
 
+
+user_client = MongoClient(urii)
+user_db = user_client[client_mongo]
+user_col = user_db["DISCOGS_items"]
 
 def insert_coll():
-    user_client = MongoClient(urii)
-    user_db = user_client['lmsbdata']
-    user_col = user_db["DISCOGS_items"]
 
     if os.path.exists('diff.csv'):
         with open('diff.csv', encoding='utf-8', errors='ignore') as f:
@@ -49,4 +51,7 @@ def insert_coll():
                     print("Aucun document valide à supprimer.")
         os.remove('remove.csv')
 
-
+def delete_db():
+    print(f"{user_col} has been deleted")
+    user_col.drop()
+    os.remove('discogs_coll.csv')

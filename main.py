@@ -1,18 +1,24 @@
-from sript_auto import planificateur
+from sript_auto import exec
 from client import client_exe
 import asyncio
 
 def main():
-  print('Bonjour , Listting des items discogs ')
+  print('Bienvenue dans ton listing discogs ')
 
-  choice=int(input('Tu es un client(1) ou le proprio(2):'))
+  choice=int(input("Tu es : \n 1-un client \n 2-le proprio(Script automatique) \n Veuillez entrer l'entier de votre choix:"))
   match choice:
+    #Option Client
     case 1:
       asyncio.run(client_exe.client_execut())
+    #Option Script Automatique
     case 2:
-      planificateur.exc_data()
+      exec.script_auto()
+        
     case _ :
+      print("un entier pls")
       main()
+
+
 
 if __name__ == '__main__':
   main()

@@ -1,10 +1,10 @@
 import schedule
 import time
-from .exec import auto_exe
+from . import exec
 
 
 def exc_data():
-  auto_exe()
+  exec.auto_exe()
 
 
   schedule.every(1).minutes.do(exc_data)
