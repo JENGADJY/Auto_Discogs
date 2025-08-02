@@ -1,14 +1,18 @@
 import requests
-
 from pathlib import Path
-from .verif import verif_data, verif_file
+from .verif import verif_data
 from .mongo_db import insert_coll
 import os
 import pandas as ps
 from .csv import insert_csv, errors_data, create_file
+from dotenv import load_dotenv
+from . import environ
+
+load_dotenv()
 
 
 def recup_insert(username, token, combien):
+    first_time = os.getenv("FIRST-TIME")
     disc_csv = 'discogs_coll.csv'
     url = f"https://api.discogs.com/users/{username}/collection/folders/0/releases"
     headers = {"Authorization": f"Discogs token={token}"}
@@ -128,17 +132,26 @@ def recup_insert(username, token, combien):
         else:
             #Verification afin de pouvoir modifier ou ajouter au csv
             if not verif_data(Article, disc_csv):
-                if fileDONT.is_file(): 
-                    if errors_data(Article) !=None:
+                if fileDONT.is_file():
+                    if first_time =="no": 
+                        if errors_data(Article) !=None:
                         #print(errors_data(Article),Article)
                 
-                        insert_csv(disc_csv,Article)
-                        insert_csv('diff.csv',Article)
+                            insert_csv(disc_csv,Article)
+                            insert_csv('diff.csv',Article)
+                    if first_time =="yes": 
+                        if errors_data(Article) == None:
+                        #print(errors_data(Article),Article)
+                
+                            insert_csv(disc_csv,Article)
+                            insert_csv('diff.csv',Article)
+
+    environ.update_env_variable("FIRST-TIME", "no")                      
     """
     if os.path.exists('./discogs_coll.csv')and os.path.exists('discogs_coll.csv'):
         verif_file('./discogs_coll.csv','discogs_coll.csv')
     """
     if (os.path.exists('diff.csv') ) :
-        insert_coll() 
+        insert_coll()
     else:
         print("Il n'y a aucune donnée à incrementer")

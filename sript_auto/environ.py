@@ -29,7 +29,8 @@ def create_env_file():
         "MONGO_DB_URL": urii,
         "token_discogs": token,
         "username_discogs": username,
-        "MONGO_DBNAME" : db_name
+        "MONGO_DBNAME" : db_name,
+        "FIRST-TIME": "yes"
     }
 
     with open(filename, "w") as f:
@@ -46,7 +47,8 @@ def modify_env_file(urii,token,username,db_name):
         "MONGO_DB_URL": urii,
         "token_discogs": token,
         "username_discogs": username,
-        "MONGO_DBNAME" : db_name
+        "MONGO_DBNAME" : db_name,
+        "FIRST-TIME" : "no"
     }
 
     # Lire le fichier existant
@@ -68,6 +70,32 @@ def modify_env_file(urii,token,username,db_name):
 
     print(f"✅ Fichier {filename} modifié avec succès.")
 
+
+def update_env_variable(key, value, env_path=".env"):
+    lines = []
+    found = False
+
+    try:
+        with open(env_path, "r", encoding="utf-8") as file:
+            lines = file.readlines()
+
+        for i, line in enumerate(lines):
+            if line.startswith(f"{key}="):
+                lines[i] = f"{key}={value}\n"
+                found = True
+                break
+
+        if not found:
+            lines.append(f"{key}={value}\n")
+
+        with open(env_path, "w", encoding="utf-8") as file:
+            file.writelines(lines)
+
+    except FileNotFoundError:
+        # Si le .env n'existe pas encore
+        with open(env_path, "w", encoding="utf-8") as file:
+            file.write(f"{key}={value}\n")
+            
 def change_Mongo_url():
     if not file.is_file():
            print("Vous n'avez pas encore de .env \n Create the . env by choosing the option 3.")
