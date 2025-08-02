@@ -22,25 +22,9 @@ pour l'automatisation:
  MONGO_DB_URL=
  username_discogs=
  Discogs_token=
- MONGO_USERNAME=
+ MONGO_DBNAME=
 ```
 
-Si vous voullez lire le programme depuis un fichier externe voici une base pour un autre main.py:
-
-```python
-    import asyncio
-    from Auto_Discogs import main as Auto_Discogs_main
-
-
-    def main():
-        Auto_Discogs_main.main()
-
-
-    if __name__ == '__main__':
-        main()
-
-```
-
-Si vous voulez l'executez sur replit , copier les fichiers qui sont dans le replit/
+Ou sinon Selectionner l'option 2 et créer vos variables qui seront le .env
 
 https://stackoverflow.com/questions/63484742/how-to-write-in-env-file-from-python-code ///// plus tard
