@@ -129,10 +129,11 @@ def recup_insert(username, token, combien):
             #Verification afin de pouvoir modifier ou ajouter au csv
             if not verif_data(Article, disc_csv):
                 if fileDONT.is_file(): 
-                    errors_data(Article)
+                    if errors_data(Article) !=None:
+                        #print(errors_data(Article),Article)
                 
-                insert_csv(disc_csv,Article)
-                insert_csv('diff.csv',Article)
+                        insert_csv(disc_csv,Article)
+                        insert_csv('diff.csv',Article)
     """
     if os.path.exists('./discogs_coll.csv')and os.path.exists('discogs_coll.csv'):
         verif_file('./discogs_coll.csv','discogs_coll.csv')
