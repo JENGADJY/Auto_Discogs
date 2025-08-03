@@ -1,4 +1,4 @@
-from . import fonction ,discogs ,planificateur ,mongo_db,environ
+from . import Data ,discogs ,planificateur ,mongo_db,environ
 from dotenv import load_dotenv
 import os
 
@@ -9,15 +9,15 @@ token=os.getenv('token_discogs')
 
 def auto_exe():
     combien = discogs.item_user(username, token)
-    fonction.recup_insert(username, token, combien)
+    Data.recup_insert(username, token, combien)
 
 
 def script_auto():
   auto_choix=int(input("Que veux-tu faire ?: \n" \
-    " 1-Lancer le script \n" \
-    " 2-Supprimer la db \n" \
-    " 3- Créer le .env \n"
-    " -4 Modifier le .env(si le .env exist)\n " \
+    " 1 -Lancer le script \n" \
+    " 2 -Supprimer la db \n" \
+    " 3 - Créer le .env \n"
+    " 4 - Modifier le .env(si le .env exist)\n " \
     "Veuillez entrer votre entier:")
     )
   match auto_choix:
