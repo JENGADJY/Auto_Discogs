@@ -26,5 +26,3 @@ pour l'automatisation:
 ```
 
 Ou sinon Selectionner l'option 2 et créer vos variables qui seront dans le .env
-
-https://stackoverflow.com/questions/63484742/how-to-write-in-env-file-from-python-code ///// plus tard
